@@ -11,7 +11,7 @@ jobs:
         strategy:
           fail-fast: false
           matrix:
-            arch: [amd64, arm64]
+            arch: [amd64]
         permissions: 
           contents: read
           # for sarif
@@ -59,8 +59,7 @@ jobs:
             - name: Build and load
               run: |
                     docker buildx bake \
-                    --set "*.cache-from=type=local,src=/tmp/.buildx-cache" \
-                    --set "*.cache-to=type=local,dest=/tmp/.buildx-cache-new" \
+                    --set "*.cache-from=type=gha" \
                     --set "*.platform=linux/${{ matrix.arch }}" \
                     --builder ${{ steps.buildx.outputs.name }} \
                     -f docker-compose.yml \
